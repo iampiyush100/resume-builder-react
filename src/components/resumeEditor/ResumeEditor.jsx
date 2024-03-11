@@ -61,17 +61,14 @@ function ResumeEditor() {
     },
     validationSchema: personalInfoValidation,
     onSubmit: (values) => {
-      console.log("=============valuesvaluesvalues=======================");
-      console.log(values);
-      console.log("====================================");
-      handleOnSubmit()
+    
+      handleOnSubmit();
     },
     validateOnChange: true,
     validateOnBlur: true,
   });
 
-  const {values,errors} = formik
-  console.log(values,errors,"((((");
+  const { values } = formik;
 
   function handleOnChange(event) {
     switch (activeTabEffect) {
@@ -104,9 +101,7 @@ function ResumeEditor() {
   }
 
   function handleOnSubmit() {
-    console.log('====================================');
-    console.log('ihugyftgyhjklkjh');
-    console.log('====================================');
+  
     switch (activeTabEffect) {
       case editorTabs.personalInformation:
         dispatch(addPersonalDetails(values?.personalInfo));
@@ -173,43 +168,49 @@ function ResumeEditor() {
         name="personalInfo.name"
         type="text"
         onChange={formik.handleChange}
-        error={formik.errors['personalInfo']['name']}
+        error={formik.errors["personalInfo"]?.["name"]}
       />
       <InputControl
         placeholder="Enter Designation eg. FullStack developer"
-        name="designation"
+        name="personalInfo.designation"
         type="text"
-        value={personalInfo.designation}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["designation"]}
       />
       <InputControl
         placeholder="Enter Mobile"
-        name="mobile"
+        name="personalInfo.mobile"
         type="tel"
-        value={personalInfo.mobile}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["mobile"]}
       />
       <InputControl
         placeholder="Enter Email"
-        name="email"
+        name="personalInfo.email"
         type="email"
-        value={personalInfo.email}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["email"]}
       />
-      <InputControl placeholder="Enter DOB" name="dob" type="date" value={personalInfo.dob} onChange={handleOnChange} />
+      <InputControl
+        placeholder="Enter DOB"
+        name="personalInfo.dob"
+        type="date"
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["dob"]}
+      />
       <InputControl
         placeholder="Enter Github Link"
-        name="githubLink"
+        name="personalInfo.githubLink"
         type="url"
-        value={personalInfo.githubLink}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["githubLink"]}
       />
       <InputControl
         placeholder="Enter Address"
-        name="address"
+        name="personalInfo.address"
         type="text"
-        value={personalInfo.address}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors["personalInfo"]?.["address"]}
       />
     </>
   );
@@ -356,7 +357,9 @@ function ResumeEditor() {
           </Row>
 
           <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
-            <Button type="submit" onClick={handleOnSubmit}>Save</Button>
+            <Button type="submit">
+              Save
+            </Button>
           </Row>
         </form>
       </Container>

@@ -7,7 +7,7 @@ function InputControl({ label, error, ...props }) {
     <div className={styles.container}>
       {label && <label>{label}</label>}
       <input {...props} />
-      {error && <label>{error}</label>}
+      {error && <label style={{ color: 'red', fontSize: '12px'}}><div>{error}</div></label>}
     </div>
   );
 }
