@@ -14,8 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import ResumeViewer from "../resumeViewer/ResumeViewer";
 import Chip from "../chip/Chip";
-// import { useFormik } from "formik";
-// import { personalInfoValidation } from "../../utils/validation";
+import { useFormik } from "formik";
+import { personalInfoValidation } from "../../utils/validation";
 
 function ResumeEditor() {
   const dispatch = useDispatch();
@@ -49,23 +49,29 @@ function ResumeEditor() {
   const [skillInfo, setSkillInfo] = useState({ skillName: "" });
 
   // comment formik validation
-  //   const formik = useFormik({
-  //     initialValues: {
-  //       name: "",
-  //       designation: "",
-  //       mobile: "",
-  //       email: "",
-  //       dob: "",
-  //       githubLink: "",
-  //       address: "",
-  //     },
-  //     validationSchema: personalInfoValidation,
-  //     onSubmit: (values) => {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      designation: "",
+      mobile: "",
+      email: "",
+      dob: "",
+      githubLink: "",
+      address: "",
+    },
+    validationSchema: personalInfoValidation,
+    onSubmit: (values) => {
+      console.log("=============valuesvaluesvalues=======================");
+      console.log(values);
+      console.log("====================================");
+      handleOnSubmit()
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
 
-  //     },
-  //     validateOnChange: true,
-  //     validateOnBlur: true
-  // });
+  const {values,errors} = formik
+  console.log(values,errors,"((((");
 
   function handleOnChange(event) {
     switch (activeTabEffect) {
@@ -98,9 +104,12 @@ function ResumeEditor() {
   }
 
   function handleOnSubmit() {
+    console.log('====================================');
+    console.log('ihugyftgyhjklkjh');
+    console.log('====================================');
     switch (activeTabEffect) {
       case editorTabs.personalInformation:
-        dispatch(addPersonalDetails(personalInfo));
+        dispatch(addPersonalDetails(values?.personalInfo));
         setPersonalInfo({
           name: "",
           designation: "",
@@ -161,10 +170,10 @@ function ResumeEditor() {
     <>
       <InputControl
         placeholder="Enter Name eg. Piyush Gupta"
-        name="name"
+        name="personalInfo.name"
         type="text"
-        value={personalInfo.name}
-        onChange={handleOnChange}
+        onChange={formik.handleChange}
+        error={formik.errors['personalInfo']['name']}
       />
       <InputControl
         placeholder="Enter Designation eg. FullStack developer"
@@ -327,27 +336,29 @@ function ResumeEditor() {
   return (
     <>
       <Container style={{ marginTop: "2%", width: "50%" }}>
-        <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
-          {Object.values(editorTabs)?.map((key) => (
-            <Col
-              key={key}
-              onClick={() => {
-                setActiveTabEffect(key);
-              }}
-              style={{ ...(key === activeTabEffect ? { background: "orange" } : {}) }}
-            >
-              {key}
-            </Col>
-          ))}
-        </Row>
+        <form onSubmit={formik.handleSubmit}>
+          <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
+            {Object.values(editorTabs)?.map((key) => (
+              <Col
+                key={key}
+                onClick={() => {
+                  setActiveTabEffect(key);
+                }}
+                style={{ ...(key === activeTabEffect ? { background: "orange" } : {}) }}
+              >
+                {key}
+              </Col>
+            ))}
+          </Row>
 
-        <Row style={{ border: "1px solid #D0D3D4", paddingTop: "2%", height: "500px", backgroundColor: "#F0F3F4" }}>
-          {generateBody()}
-        </Row>
+          <Row style={{ border: "1px solid #D0D3D4", paddingTop: "2%", height: "500px", backgroundColor: "#F0F3F4" }}>
+            {generateBody()}
+          </Row>
 
-        <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
-          <Button onClick={handleOnSubmit}>Save</Button>
-        </Row>
+          <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
+            <Button type="submit" onClick={handleOnSubmit}>Save</Button>
+          </Row>
+        </form>
       </Container>
 
       <Container style={{ marginTop: "10%", width: "80%" }}>
