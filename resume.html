@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .resume {
+    width: 21cm;
+    height: 29.7cm;
+    margin: auto;
+    background-color: #f9f9f9;
+    padding: 2cm;
+    box-sizing: border-box;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .details p {
+    margin: 0;
+  }
+
+  .education, .work-experience {
+    margin-top: 10px;
+  }
+
+  .work-experience .job {
+    margin-bottom: 10px;
+  }
+
+  .skills ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .skills li {
+    display: inline-block;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+</style>
+</head>
+<body>
+<div class="resume">
+  <div class="section personal-details">
+    <h2>Personal Details</h2>
+    <div class="details">
+      <p><strong>Name:</strong> John Doe</p>
+      <p><strong>Email:</strong> john@example.com</p>
+      <p><strong>Phone:</strong> 123-456-7890</p>
+      <p><strong>Address:</strong> 123 Main St, City, Country</p>
+    </div>
+  </div>
+
+  <div class="section education">
+    <h2>Education</h2>
+    <div class="details">
+      <div class="education-info">
+        <p><strong>Degree:</strong> Bachelor of Science</p>
+        <p><strong>University:</strong> XYZ University</p>
+        <p><strong>Year:</strong> 2015-2019</p>
+      </div>
+      <!-- Add more education entries as needed -->
+    </div>
+  </div>
+
+  <div class="section work-experience">
+    <h2>Work Experience</h2>
+    <div class="details">
+      <div class="job">
+        <p><strong>Position:</strong> Web Developer</p>
+        <p><strong>Company:</strong> ABC Corp</p>
+        <p><strong>Duration:</strong> 2019-Present</p>
+      </div>
+      <!-- Add more job entries as needed -->
+    </div>
+  </div>
+
+  <div class="section skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+      <!-- Add more skills as needed -->
+    </ul>
+  </div>
+</div>
+</body>
+</html>

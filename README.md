@@ -1,2 +1,34 @@
-# resume-builder-react
+# Project Name
+
+## Introduction
+
 This project is designed to create your own resume
+
+## Version Info
+
+- Node.js version: v20.9.0
+
+## Getting Started
+
+To start the project, follow these steps:
+
+1. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+2. Run the project in development mode:
+    ```bash
+    npm run dev
+    ```
+
+## Login Credentials
+
+To access the project's API, use the following login credentials:
+
+- **API URL**: `https://api.example.com`
+- **Username**: `kminchelle`
+- **Password**: `0lelplR`
+
+Please make sure to replace these credentials with the actual credentials provided by your project.
+
