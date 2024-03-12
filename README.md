@@ -30,5 +30,4 @@ To access the project's API, use the following login credentials:
 - **Username**: `kminchelle`
 - **Password**: `0lelplR`
 
-Please make sure to replace these credentials with the actual credentials provided by your project.
 
