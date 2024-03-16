@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -59,7 +59,7 @@ function Navbar({ signedIn }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{background: "black"}}>
       {signedIn && (
         <Container maxWidth="xl">
           <Toolbar disableGutters>

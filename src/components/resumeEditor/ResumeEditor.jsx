@@ -15,130 +15,112 @@ import { useDispatch, useSelector } from "react-redux";
 import ResumeViewer from "../resumeViewer/ResumeViewer";
 import Chip from "../chip/Chip";
 import { useFormik } from "formik";
-import { personalInfoValidation } from "../../utils/validation";
+import {
+  personalInfoValidationSchema,
+  educationInfoValidationSchema,
+  workExpInfoValidationSchema,
+  skillsInfoValidationSchema,
+} from "../../utils/validation";
+import styles from "./ResumeEditor.module.css";
 
 function ResumeEditor() {
   const dispatch = useDispatch();
   let initialStateOfResume = useSelector((state) => state.resume);
   const [activeTabEffect, setActiveTabEffect] = useState(Object.values(editorTabs)[0]);
-  const [personalInfo, setPersonalInfo] = useState({
-    name: "",
-    designation: "",
-    mobile: "",
-    email: "",
-    dob: "",
-    githubLink: "",
-    address: "",
-  });
 
-  const [educationInfo, setEducationInfo] = useState({
-    education: "",
-    courseName: "",
-    college: "",
-    startDate: "",
-    endDate: "",
-  });
-
-  const [workExpInfo, setWorkExpInfo] = useState({
-    designation: "",
-    companyName: "",
-    startDate: "",
-    endDate: "",
-  });
-
-  const [skillInfo, setSkillInfo] = useState({ skillName: "" });
-
-  // comment formik validation
-  const formik = useFormik({
+  // formik validation
+  const formikPersonalDetails = useFormik({
     initialValues: {
-      name: "",
-      designation: "",
-      mobile: "",
-      email: "",
-      dob: "",
-      githubLink: "",
-      address: "",
+      personalInfo: {
+        name: "",
+        designation: "",
+        mobile: "",
+        email: "",
+        dob: "",
+        githubLink: "",
+        address: "",
+      },
     },
-    validationSchema: personalInfoValidation,
-    onSubmit: (values) => {
-    
+    validationSchema: personalInfoValidationSchema,
+    onSubmit: (values, { resetForm }) => {
       handleOnSubmit();
+      resetForm();
     },
     validateOnChange: true,
     validateOnBlur: true,
   });
 
-  const { values } = formik;
+  const formikEdu = useFormik({
+    initialValues: {
+      educationInfo: {
+        education: "",
+        courseName: "",
+        college: "",
+        startDate: "",
+        endDate: "",
+      },
+    },
+    validationSchema: educationInfoValidationSchema,
+    onSubmit: (values, { resetForm }) => {
+      handleOnSubmit();
+      resetForm();
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
 
-  function handleOnChange(event) {
-    switch (activeTabEffect) {
-      case editorTabs.personalInformation:
-        setPersonalInfo((prev) => ({
-          ...prev,
-          [event.target.name]: event.target.value,
-        }));
-        break;
-      case editorTabs.education:
-        setEducationInfo((prev) => ({
-          ...prev,
-          [event.target.name]: event.target.value,
-        }));
-        break;
-      case editorTabs.workExp:
-        setWorkExpInfo((prev) => ({
-          ...prev,
-          [event.target.name]: event.target.value,
-        }));
-        break;
-      case editorTabs.skill:
-        setSkillInfo((prev) => ({
-          ...prev,
-          [event.target.name]: event.target.value,
-        }));
-        break;
-      default:
-    }
-  }
+  const formikWrkExp = useFormik({
+    initialValues: {
+      workExperience: {
+        designation: "",
+        companyName: "",
+        startDate: "",
+        endDate: "",
+      },
+    },
+    validationSchema: workExpInfoValidationSchema,
+    onSubmit: (values, { resetForm }) => {
+      handleOnSubmit();
+      resetForm();
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
+
+  const formikSkill = useFormik({
+    initialValues: {
+      skillInfo: {
+        skillName: "",
+      },
+    },
+    validationSchema: skillsInfoValidationSchema,
+    onSubmit: (values, { resetForm }) => {
+      handleOnSubmit();
+      resetForm();
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
+
+  const { personalInfo } = formikPersonalDetails.values;
+  const { educationInfo } = formikEdu.values;
+  const { workExperience } = formikWrkExp.values;
+  const { skillInfo } = formikSkill.values;
 
   function handleOnSubmit() {
-  
+    console.log('inside submit form>>>>');
     switch (activeTabEffect) {
       case editorTabs.personalInformation:
-        dispatch(addPersonalDetails(values?.personalInfo));
-        setPersonalInfo({
-          name: "",
-          designation: "",
-          mobile: "",
-          email: "",
-          dob: "",
-          githubLink: "",
-          address: "",
-        });
+        dispatch(addPersonalDetails(personalInfo));
         break;
       case editorTabs.education:
         dispatch(addEducationDetails(educationInfo));
-        setEducationInfo({
-          education: "",
-          courseName: "",
-          college: "",
-          startDate: "",
-          endDate: "",
-        });
         break;
       case editorTabs.workExp:
-        dispatch(addWorkExpDetails(workExpInfo));
-        setWorkExpInfo({
-          designation: "",
-          companyName: "",
-          startDate: "",
-          endDate: "",
-        });
+        dispatch(addWorkExpDetails(workExperience));
         break;
       case editorTabs.skill:
         dispatch(addSkillsDetails(skillInfo));
-        setSkillInfo({
-          skillName: "",
-        });
         break;
       default:
     }
@@ -163,159 +145,196 @@ function ResumeEditor() {
 
   const personalInformation = (
     <>
-      <InputControl
-        placeholder="Enter Name eg. Piyush Gupta"
-        name="personalInfo.name"
-        type="text"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["name"]}
-      />
-      <InputControl
-        placeholder="Enter Designation eg. FullStack developer"
-        name="personalInfo.designation"
-        type="text"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["designation"]}
-      />
-      <InputControl
-        placeholder="Enter Mobile"
-        name="personalInfo.mobile"
-        type="tel"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["mobile"]}
-      />
-      <InputControl
-        placeholder="Enter Email"
-        name="personalInfo.email"
-        type="email"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["email"]}
-      />
-      <InputControl
-        placeholder="Enter DOB"
-        name="personalInfo.dob"
-        type="date"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["dob"]}
-      />
-      <InputControl
-        placeholder="Enter Github Link"
-        name="personalInfo.githubLink"
-        type="url"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["githubLink"]}
-      />
-      <InputControl
-        placeholder="Enter Address"
-        name="personalInfo.address"
-        type="text"
-        onChange={formik.handleChange}
-        error={formik.errors["personalInfo"]?.["address"]}
-      />
+      <form onSubmit={formikPersonalDetails.handleSubmit}>
+        <InputControl
+          label={"Enter Name"}
+          placeholder="eg. Piyush Gupta"
+          name="personalInfo.name"
+          type="text"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["name"]}
+        />
+        <InputControl
+          label={"Enter Designation"}
+          placeholder="eg. FullStack developer"
+          name="personalInfo.designation"
+          type="text"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["designation"]}
+        />
+        <InputControl
+          label={"Enter Mobile"}
+          placeholder="eg. +919876543210"
+          name="personalInfo.mobile"
+          type="tel"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["mobile"]}
+        />
+        <InputControl
+          label={"Enter Email"}
+          placeholder="eg. iampiyush100@gmail.com"
+          name="personalInfo.email"
+          type="email"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["email"]}
+        />
+        <InputControl
+          label={"Enter DOB"}
+          name="personalInfo.dob"
+          type="date"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["dob"]}
+        />
+        <InputControl
+          label={"Enter Github Link"}
+          placeholder="eg. https://www.linkedin.com/in/piyush-gupta-b05889191/"
+          name="personalInfo.githubLink"
+          type="url"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["githubLink"]}
+        />
+        <InputControl
+          label={"Enter Address"}
+          placeholder="eg. Noida"
+          name="personalInfo.address"
+          type="text"
+          onChange={formikPersonalDetails.handleChange}
+          error={formikPersonalDetails.errors["personalInfo"]?.["address"]}
+        />
+        <Button className={styles.button} type="submit">
+          Save
+        </Button>
+      </form>
     </>
   );
 
   const education = (
     <>
-      <select
-        name="education"
-        style={{ width: "96%", marginLeft: "2%", height: "45px", border: "1px solid #adadad" }}
-        onChange={handleOnChange}
-      >
-        <option value="">Select Education</option>
-        <option value="High School">High School</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Graduation">Graduation</option>
-        <option value="Post Graduation">Post Graduation</option>
-      </select>
-      <InputControl
-        placeholder="Enter Course Name"
-        type="text"
-        name="courseName"
-        value={educationInfo.courseName}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="Enter College"
-        type="text"
-        name="college"
-        value={educationInfo.college}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="Select Start Date"
-        type="date"
-        name="startDate"
-        value={educationInfo.startDate}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="Select End Date"
-        type="date"
-        name="endDate"
-        value={educationInfo.endDate}
-        onChange={handleOnChange}
-      />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {initialStateOfResume?.educationInfo?.map((edu, index) => (
-          <Chip text={`education ${index + 1}`} key={index} onClick={() => handleChipClick(edu.id)} />
-        ))}
-      </div>
+      <form onSubmit={formikEdu.handleSubmit}>
+        <label htmlFor="end">Select Education:</label><br />
+        {formikEdu.errors["educationInfo"]?.["education"] && <label style={{ color: 'red', fontSize: '10px'}}><div>{formikEdu.errors["educationInfo"]?.["education"]}</div></label>}
+        <select
+          name="educationInfo.education"
+          style={{ width: "100%", height: "45px", border: "1px solid #adadad", borderRadius: "5px" }}
+          onChange={formikEdu.handleChange}
+          value={formikEdu.values.educationInfo.education}
+          // error={formikEdu.errors["educationInfo"]?.["education"]}
+        >
+          {/* <option value="">Select Education</option> */}
+          <option value="Post Graduation">Post Graduation</option>
+          <option value="Graduation">Graduation</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="High School">High School</option>
+        </select>
+
+        <InputControl
+          label={"Enter Course Name:"}
+          type="text"
+          name="educationInfo.courseName"
+          onChange={formikEdu.handleChange}
+          error={formikEdu.errors["educationInfo"]?.["courseName"]}
+        />
+
+        <InputControl
+          label={"Enter College Name:"}
+          type="text"
+          name="educationInfo.college"
+          onChange={formikEdu.handleChange}
+          error={formikEdu.errors["educationInfo"]?.["college"]}
+        />
+
+        <InputControl
+          label={"Enter Start Date:"}
+          type="date"
+          name="educationInfo.startDate"
+          onChange={formikEdu.handleChange}
+          error={formikEdu.errors["educationInfo"]?.["startDate"]}
+        />
+
+        <InputControl
+          label={"Enter End Date:"}
+          type="date"
+          name="educationInfo.endDate"
+          onChange={formikEdu.handleChange}
+          error={formikEdu.errors["educationInfo"]?.["endDate"]}
+        />
+        <br />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {initialStateOfResume?.educationInfo?.map((edu, index) => (
+            <Chip text={`education ${index + 1}`} key={index} onClick={() => handleChipClick(edu.id)} />
+          ))}
+        </div>
+        <Button className={styles.button} type="submit">
+          Save
+        </Button>
+      </form>
     </>
   );
 
-  const workExperience = (
+  const workExperienceBody = (
     <>
-      <InputControl
-        placeholder="Enter Designation"
-        type="text"
-        name="designation"
-        value={workExpInfo.designation}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="Enter Company Name"
-        type="text"
-        name="companyName"
-        value={workExpInfo.companyName}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="Start Date"
-        type="date"
-        name="startDate"
-        value={workExpInfo.startDate}
-        onChange={handleOnChange}
-      />
-      <InputControl
-        placeholder="End Date"
-        type="date"
-        name="endDate"
-        value={workExpInfo.endDate}
-        onChange={handleOnChange}
-      />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {initialStateOfResume?.workExpInfo?.map((workExp, index) => (
-          <Chip text={`experience ${index + 1}`} key={index} onClick={() => handleChipClick(workExp.id)} />
-        ))}
-      </div>
+      <form onSubmit={formikWrkExp.handleSubmit}>
+        <InputControl
+          label={"Enter Designation:"}
+          type="text"
+          name="workExperience.designation"
+          onChange={formikWrkExp.handleChange}
+          error={formikWrkExp.errors["workExperience"]?.["designation"]}
+        />
+        <InputControl
+          label={"Enter Company Name:"}
+          type="text"
+          name="workExperience.companyName"
+          onChange={formikWrkExp.handleChange}
+          error={formikWrkExp.errors["workExperience"]?.["companyName"]}
+        />
+        <InputControl
+          label={"Enter Start Date:"}
+          type="date"
+          name="workExperience.startDate"
+          onChange={formikWrkExp.handleChange}
+          error={formikWrkExp.errors["workExperience"]?.["startDate"]}
+        />
+        <InputControl
+          label={"Enter End Date:"}
+          type="date"
+          name="workExperience.endDate"
+          onChange={formikWrkExp.handleChange}
+          error={formikWrkExp.errors["workExperience"]?.["endDate"]}
+        />
+        <br />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {initialStateOfResume?.workExpInfo?.map((workExp, index) => (
+            <Chip text={`experience ${index + 1}`} key={index} onClick={() => handleChipClick(workExp.id)} />
+          ))}
+        </div>
+        <Button className={styles.button} type="submit">
+          Save
+        </Button>
+      </form>
     </>
   );
 
   const skills = (
     <>
-      <InputControl
-        placeholder="Enter Skills"
-        name="skillName"
-        type="text"
-        value={skillInfo.skillName}
-        onChange={handleOnChange}
-      />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {initialStateOfResume?.skillInfo?.map((skill, index) => (
-          <Chip text={`${index + 1}. ${skill.skillName}`} key={index} onClick={() => handleChipClick(skill.id)} />
-        ))}
-      </div>
+      <form onSubmit={formikSkill.handleSubmit}>
+        <InputControl
+          label={"Enter Skills Set"}
+          name="skillInfo.skillName"
+          type="text"
+          onChange={formikSkill.handleChange}
+          error={formikSkill.errors["skillInfo"]?.["skillName"]}
+        />
+        <br />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {initialStateOfResume?.skillInfo?.map((skill, index) => (
+            <Chip text={`${index + 1}. ${skill.skillName}`} key={index} onClick={() => handleChipClick(skill.id)} />
+          ))}
+        </div>
+        <Button className={styles.button} type="submit">
+          Save
+        </Button>
+      </form>
     </>
   );
 
@@ -326,7 +345,7 @@ function ResumeEditor() {
       case editorTabs.education:
         return education;
       case editorTabs.workExp:
-        return workExperience;
+        return workExperienceBody;
       case editorTabs.skill:
         return skills;
       default:
@@ -337,31 +356,23 @@ function ResumeEditor() {
   return (
     <>
       <Container style={{ marginTop: "2%", width: "50%" }}>
-        <form onSubmit={formik.handleSubmit}>
-          <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
-            {Object.values(editorTabs)?.map((key) => (
-              <Col
-                key={key}
-                onClick={() => {
-                  setActiveTabEffect(key);
-                }}
-                style={{ ...(key === activeTabEffect ? { background: "orange" } : {}) }}
-              >
-                {key}
-              </Col>
-            ))}
-          </Row>
+        <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
+          {Object.values(editorTabs)?.map((key) => (
+            <Col
+              key={key}
+              onClick={() => {
+                setActiveTabEffect(key);
+              }}
+              style={{ ...(key === activeTabEffect ? { background: "black", color: 'white' } : {}) }}
+            >
+              {key}
+            </Col>
+          ))}
+        </Row>
 
-          <Row style={{ border: "1px solid #D0D3D4", paddingTop: "2%", height: "500px", backgroundColor: "#F0F3F4" }}>
-            {generateBody()}
-          </Row>
-
-          <Row style={{ border: "1px solid #D0D3D4", backgroundColor: "#F0F3F4", textAlign: "center" }}>
-            <Button type="submit">
-              Save
-            </Button>
-          </Row>
-        </form>
+        <Row style={{ border: "1px solid #D0D3D4", paddingTop: "2%", backgroundColor: "#F0F3F4" }}>
+          {generateBody()}
+        </Row>
       </Container>
 
       <Container style={{ marginTop: "10%", width: "80%" }}>

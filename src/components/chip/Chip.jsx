@@ -1,3 +1,4 @@
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Chip = ({ text, ...props }) => {
     const chipStyle = {
@@ -26,7 +27,7 @@ const Chip = ({ text, ...props }) => {
     <div style={chipStyle}>
       {text}
       <button style={closeBtnStyle} aria-label="Close" {...props}>
-        ×
+      <DeleteForeverIcon style={{color:'black'}}></DeleteForeverIcon>
       </button>
     </div>
   );
