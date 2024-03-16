@@ -96,7 +96,7 @@ function ResumeEditor() {
     validationSchema: skillsInfoValidationSchema,
     onSubmit: (values, { resetForm }) => {
       handleOnSubmit();
-      resetForm();
+      resetForm({ values: { skillInfo: { skillName: "" } } }); // 
     },
     validateOnChange: true,
     validateOnBlur: true,
