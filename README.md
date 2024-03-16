@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is designed to create your own resume
+This project is designed to create your own resume.
 
 ## Version Info
 
@@ -31,3 +31,6 @@ To access the project's API, use the following login credentials:
 - **Password**: `0lelplR`
 
 
+## Live Project
+
+You can access the live project [here](https://relaxed-tiramisu-0e22fa.netlify.app/).
