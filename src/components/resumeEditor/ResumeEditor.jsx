@@ -96,7 +96,7 @@ function ResumeEditor() {
     validationSchema: skillsInfoValidationSchema,
     onSubmit: (values, { resetForm }) => {
       handleOnSubmit();
-      resetForm({ values: { skillInfo: { skillName: "" } } }); // 
+      resetForm(); // 
     },
     validateOnChange: true,
     validateOnBlur: true,
@@ -108,7 +108,6 @@ function ResumeEditor() {
   const { skillInfo } = formikSkill.values;
 
   function handleOnSubmit() {
-    console.log('inside submit form>>>>');
     switch (activeTabEffect) {
       case editorTabs.personalInformation:
         dispatch(addPersonalDetails(personalInfo));
@@ -150,6 +149,7 @@ function ResumeEditor() {
           label={"Enter Name"}
           placeholder="eg. Piyush Gupta"
           name="personalInfo.name"
+          value={personalInfo?.name}
           type="text"
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["name"]}
@@ -159,6 +159,7 @@ function ResumeEditor() {
           placeholder="eg. FullStack developer"
           name="personalInfo.designation"
           type="text"
+          value={personalInfo?.designation}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["designation"]}
         />
@@ -167,6 +168,7 @@ function ResumeEditor() {
           placeholder="eg. +919876543210"
           name="personalInfo.mobile"
           type="tel"
+          value={personalInfo?.mobile}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["mobile"]}
         />
@@ -175,6 +177,7 @@ function ResumeEditor() {
           placeholder="eg. iampiyush100@gmail.com"
           name="personalInfo.email"
           type="email"
+          value={personalInfo?.email}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["email"]}
         />
@@ -182,6 +185,7 @@ function ResumeEditor() {
           label={"Enter DOB"}
           name="personalInfo.dob"
           type="date"
+          value={personalInfo?.dob}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["dob"]}
         />
@@ -190,6 +194,7 @@ function ResumeEditor() {
           placeholder="eg. https://www.linkedin.com/in/piyush-gupta-b05889191/"
           name="personalInfo.githubLink"
           type="url"
+          value={personalInfo?.githubLink}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["githubLink"]}
         />
@@ -198,6 +203,7 @@ function ResumeEditor() {
           placeholder="eg. Noida"
           name="personalInfo.address"
           type="text"
+          value={personalInfo?.address}
           onChange={formikPersonalDetails.handleChange}
           error={formikPersonalDetails.errors["personalInfo"]?.["address"]}
         />
@@ -211,16 +217,19 @@ function ResumeEditor() {
   const education = (
     <>
       <form onSubmit={formikEdu.handleSubmit}>
-        <label htmlFor="end">Select Education:</label><br />
-        {formikEdu.errors["educationInfo"]?.["education"] && <label style={{ color: 'red', fontSize: '10px'}}><div>{formikEdu.errors["educationInfo"]?.["education"]}</div></label>}
+        <label htmlFor="end">Select Education:</label>
+        <br />
+        {formikEdu.errors["educationInfo"]?.["education"] && (
+          <label style={{ color: "red", fontSize: "10px" }}>
+            <div>{formikEdu.errors["educationInfo"]?.["education"]}</div>
+          </label>
+        )}
         <select
           name="educationInfo.education"
           style={{ width: "100%", height: "45px", border: "1px solid #adadad", borderRadius: "5px" }}
           onChange={formikEdu.handleChange}
-          value={formikEdu.values.educationInfo.education}
-          // error={formikEdu.errors["educationInfo"]?.["education"]}
+          value={educationInfo.education}
         >
-          {/* <option value="">Select Education</option> */}
           <option value="Post Graduation">Post Graduation</option>
           <option value="Graduation">Graduation</option>
           <option value="Intermediate">Intermediate</option>
@@ -231,6 +240,7 @@ function ResumeEditor() {
           label={"Enter Course Name:"}
           type="text"
           name="educationInfo.courseName"
+          value={educationInfo?.courseName}
           onChange={formikEdu.handleChange}
           error={formikEdu.errors["educationInfo"]?.["courseName"]}
         />
@@ -239,6 +249,7 @@ function ResumeEditor() {
           label={"Enter College Name:"}
           type="text"
           name="educationInfo.college"
+          value={educationInfo?.college}
           onChange={formikEdu.handleChange}
           error={formikEdu.errors["educationInfo"]?.["college"]}
         />
@@ -247,6 +258,7 @@ function ResumeEditor() {
           label={"Enter Start Date:"}
           type="date"
           name="educationInfo.startDate"
+          value={educationInfo?.startDate}
           onChange={formikEdu.handleChange}
           error={formikEdu.errors["educationInfo"]?.["startDate"]}
         />
@@ -255,6 +267,7 @@ function ResumeEditor() {
           label={"Enter End Date:"}
           type="date"
           name="educationInfo.endDate"
+          value={educationInfo?.endDate}
           onChange={formikEdu.handleChange}
           error={formikEdu.errors["educationInfo"]?.["endDate"]}
         />
@@ -278,6 +291,7 @@ function ResumeEditor() {
           label={"Enter Designation:"}
           type="text"
           name="workExperience.designation"
+          value={workExperience?.designation}
           onChange={formikWrkExp.handleChange}
           error={formikWrkExp.errors["workExperience"]?.["designation"]}
         />
@@ -285,6 +299,7 @@ function ResumeEditor() {
           label={"Enter Company Name:"}
           type="text"
           name="workExperience.companyName"
+          value={workExperience?.companyName}
           onChange={formikWrkExp.handleChange}
           error={formikWrkExp.errors["workExperience"]?.["companyName"]}
         />
@@ -292,6 +307,7 @@ function ResumeEditor() {
           label={"Enter Start Date:"}
           type="date"
           name="workExperience.startDate"
+          value={workExperience?.startDate}
           onChange={formikWrkExp.handleChange}
           error={formikWrkExp.errors["workExperience"]?.["startDate"]}
         />
@@ -299,6 +315,7 @@ function ResumeEditor() {
           label={"Enter End Date:"}
           type="date"
           name="workExperience.endDate"
+          value={workExperience?.endDate}
           onChange={formikWrkExp.handleChange}
           error={formikWrkExp.errors["workExperience"]?.["endDate"]}
         />
@@ -321,6 +338,7 @@ function ResumeEditor() {
         <InputControl
           label={"Enter Skills Set"}
           name="skillInfo.skillName"
+          value={skillInfo?.skillName}
           type="text"
           onChange={formikSkill.handleChange}
           error={formikSkill.errors["skillInfo"]?.["skillName"]}
@@ -363,7 +381,7 @@ function ResumeEditor() {
               onClick={() => {
                 setActiveTabEffect(key);
               }}
-              style={{ ...(key === activeTabEffect ? { background: "black", color: 'white' } : {}) }}
+              style={{ ...(key === activeTabEffect ? { background: "black", color: "white" } : {}) }}
             >
               {key}
             </Col>
